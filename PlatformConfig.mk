@@ -100,6 +100,7 @@ AUDIO_FEATURE_ENABLED_SPLIT_A2DP := true
 AUDIO_FEATURE_ENABLED_RAS := true
 AUDIO_FEATURE_ENABLED_SND_MONITOR := true
 AUDIO_FEATURE_ENABLED_DYNAMIC_LOG := false
+AUDIO_DISABLE_SWAP_CHANNELS := true
 TARGET_USES_QCOM_MM_AUDIO := true
 
 # Bluetooth
@@ -131,15 +132,16 @@ ENABLE_SCHEDBOOST := true
 # Crypto
 TARGET_HW_DISK_ENCRYPTION := true
 
-# Dex pre-opt
+# Enable dex pre-opt to speed up initial boot
 ifeq ($(HOST_OS),linux)
   ifneq ($(TARGET_BUILD_VARIANT),eng)
-	ifeq ($(WITH_DEXPREOPT),)
-	  WITH_DEXPREOPT := true
-	  WITH_DEXPREOPT_BOOT_IMG_AND_SYSTEM_SERVER_ONLY := true
-	endif
+    ifeq ($(WITH_DEXPREOPT),)
+      WITH_DEXPREOPT := true
+      WITH_DEXPREOPT_BOOT_IMG_AND_SYSTEM_SERVER_ONLY := true
+    endif
   endif
 endif
+PRODUCT_DEXPREOPT_SPEED_APPS += SystemUI
 
 # Display
 MAX_EGL_CACHE_KEY_SIZE := 12*1024
