@@ -510,8 +510,6 @@ service vendor.qcom-c_main-sh /vendor/bin/init.class_main.sh
 
 on property:vold.decrypt=trigger_restart_framework
     start vendor.qcom-c_main-sh
-    start config_bt_addr
-    start wcnss-service
 
 on property:persist.env.fastdorm.enabled=true
     setprop persist.radio.data_no_toggle 1
@@ -603,8 +601,8 @@ service vendor.cnss-daemon /system/vendor/bin/cnss-daemon -n -l
     capabilities NET_ADMIN
 	writepid /dev/cpuset/system-background/tasks
 
-on property:sys.powerctl=*
-	stop vendor.cnss-daemon
+on property:sys.shutdown.requested=*
+    stop vendor.cnss-daemon
 
 service vendor.loc_launcher /system/vendor/bin/loc_launcher
     class late_start
@@ -639,7 +637,7 @@ service vendor.atfwd /vendor/bin/ATFWD-daemon
     group system radio
     disabled
 
-on property:persist.radio.atfwd.start=true
+on property:persist.vendor.radio.atfwd.start=true
     start vendor.atfwd
 
 service hostapd_fst /vendor/bin/hw/hostapd -dd -g /data/vendor/wifi/hostapd/global
